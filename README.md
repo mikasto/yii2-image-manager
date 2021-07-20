@@ -18,7 +18,17 @@ php composer.phar require "mikasto/yii2-image-manager" "*"
 or add
 
 ```json
-"mikasto/yii2-image-manager" : "*"
+"require": {
+        ...
+	"mikasto/yii2-image-manager": "*"
+    },
+"repositories": [
+        ...
+	{
+		"type": "vcs",
+		"url": "https://github.com/mikasto/yii2-image-manager"
+	}
+]
 ```
 
 to the require section of your application's `composer.json` file.
