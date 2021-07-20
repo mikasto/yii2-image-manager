@@ -1,6 +1,4 @@
-!!! Sorry, the module is no longer maintained by me anymore !!!
--
-!!! Feel free to further develop the module !!!
+This branch gives separating images by tag = saving database table name + field name + any condition
 -
 
 Image manager for Yii2
