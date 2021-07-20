@@ -1,5 +1,7 @@
 <?php
-namespace noam148\imagemanager\assets;
+
+namespace mikasto\imagemanager\assets;
+
 use yii\web\AssetBundle;
 
 /**
@@ -7,17 +9,17 @@ use yii\web\AssetBundle;
  */
 class ImageManagerModuleAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/noam148/yii2-image-manager/assets/source';
+    public $sourcePath = '@vendor/mikasto/yii2-image-manager/assets/source';
     public $css = [
-		'css/cropper.min.css',
-		'css/imagemanager.module.css',
+        'css/cropper.min.css',
+        'css/imagemanager.module.css',
     ];
     public $js = [
         'js/cropper.min.js',
-		'js/script.imagemanager.module.js',
+        'js/script.imagemanager.module.js',
     ];
     public $depends = [
-		'yii\web\JqueryAsset',
+        'yii\web\JqueryAsset',
         'yii\bootstrap\BootstrapPluginAsset',
     ];
 }

@@ -1,5 +1,7 @@
 <?php
-namespace noam148\imagemanager\assets;
+
+namespace mikasto\imagemanager\assets;
+
 use yii\web\AssetBundle;
 
 /**
@@ -7,15 +9,15 @@ use yii\web\AssetBundle;
  */
 class ImageManagerInputAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/noam148/yii2-image-manager/assets/source';
+    public $sourcePath = '@vendor/mikasto/yii2-image-manager/assets/source';
     public $css = [
-		'css/imagemanager.input.css',
+        'css/imagemanager.input.css',
     ];
     public $js = [
         'js/script.imagemanager.input.js',
     ];
     public $depends = [
-		'yii\web\JqueryAsset',
+        'yii\web\JqueryAsset',
         'yii\bootstrap\BootstrapPluginAsset',
     ];
 }

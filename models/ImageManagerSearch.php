@@ -1,20 +1,19 @@
 <?php
 
-namespace noam148\imagemanager\models;
+namespace mikasto\imagemanager\models;
 
+use mikasto\imagemanager\Module;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use noam148\imagemanager\models\ImageManager;
-use noam148\imagemanager\Module;
 
 /**
  * ImageManagerSearch represents the model behind the search form about `common\modules\imagemanager\models\ImageManager`.
  */
 class ImageManagerSearch extends ImageManager
 {
-	public $globalSearch;
-	
+    public $globalSearch;
+
     /**
      * @inheritdoc
      */
@@ -49,10 +48,10 @@ class ImageManagerSearch extends ImageManager
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-			'pagination' => [
-				'pagesize' => 100,
-			],
-			'sort'=> ['defaultOrder' => ['created'=>SORT_DESC]]
+            'pagination' => [
+                'pagesize' => 100,
+            ],
+            'sort' => ['defaultOrder' => ['created' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -72,7 +71,7 @@ class ImageManagerSearch extends ImageManager
 
         $query->orFilterWhere(['like', 'fileName', $this->globalSearch])
             ->orFilterWhere(['like', 'created', $this->globalSearch])
-			->orFilterWhere(['like', 'modified', $this->globalSearch]);
+            ->orFilterWhere(['like', 'modified', $this->globalSearch]);
 
         return $dataProvider;
     }

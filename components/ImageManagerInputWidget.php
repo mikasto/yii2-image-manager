@@ -1,17 +1,17 @@
 <?php
 
-namespace noam148\imagemanager\components;
+namespace mikasto\imagemanager\components;
 
+use mikasto\imagemanager\assets\ImageManagerInputAsset;
+use mikasto\imagemanager\models\ImageManager;
 use Yii;
-use yii\widgets\InputWidget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
-use noam148\imagemanager\models\ImageManager;
-use noam148\imagemanager\assets\ImageManagerInputAsset;
+use yii\widgets\InputWidget;
 
-class ImageManagerInputWidget extends InputWidget {
-
+class ImageManagerInputWidget extends InputWidget
+{
     /**
      * @var null|integer The aspect ratio the image needs to be cropped in (optional)
      */
@@ -35,14 +35,15 @@ class ImageManagerInputWidget extends InputWidget {
     /**
      * @inheritdoc
      */
-    public function init() {
+    public function init()
+    {
         parent::init();
         //set language
         if (!isset(Yii::$app->i18n->translations['imagemanager'])) {
             Yii::$app->i18n->translations['imagemanager'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'en',
-                'basePath' => '@noam148/imagemanager/messages'
+                'basePath' => '@mikasto/imagemanager/messages',
             ];
         }
     }
@@ -50,7 +51,8 @@ class ImageManagerInputWidget extends InputWidget {
     /**
      * @inheritdoc
      */
-    public function run() {
+    public function run()
+    {
         //default
         $ImageManager_id = null;
         $mImageManager = null;
@@ -73,7 +75,9 @@ class ImageManagerInputWidget extends InputWidget {
                 $ImageManager_fileName = $mImageManager->fileName;
             }
             //create field
-            $field .= Html::textInput($this->attribute, $ImageManager_fileName, ['class' => 'form-control', 'id' => $sFieldNameId, 'readonly' => true]);
+            $field .= Html::textInput($this->attribute,
+                $ImageManager_fileName,
+                ['class' => 'form-control', 'id' => $sFieldNameId, 'readonly' => true]);
             $field .= Html::activeHiddenInput($this->model, $this->attribute, $this->options);
         } else {
             $field .= Html::textInput($this->name . "_name", null, ['readonly' => true]);
@@ -89,11 +93,14 @@ class ImageManagerInputWidget extends InputWidget {
         //show preview if is true
         if ($this->showPreview == true) {
             $sHideClass = ($mImageManager == null) ? "hide" : "";
-            $sImageSource = isset($mImageManager->id) ? \Yii::$app->imagemanager->getImagePath($mImageManager->id, 500, 500, 'inset') : "";
+            $sImageSource = isset($mImageManager->id) ? \Yii::$app->imagemanager->getImagePath($mImageManager->id,
+                500,
+                500,
+                'inset') : "";
 
             $field .= '<div class="image-wrapper ' . $sHideClass . '">'
-                    . '<img id="' . $sFieldId . '_image" alt="Thumbnail" class="img-responsive img-preview" src="' . $sImageSource . '">'
-                    . '</div>';
+                . '<img id="' . $sFieldId . '_image" alt="Thumbnail" class="img-responsive img-preview" src="' . $sImageSource . '">'
+                . '</div>';
         }
 
         //close image-manager-input div
@@ -107,7 +114,8 @@ class ImageManagerInputWidget extends InputWidget {
     /**
      * Registers js Input
      */
-    public function registerClientScript() {
+    public function registerClientScript()
+    {
         $view = $this->getView();
         ImageManagerInputAsset::register($view);
 
@@ -116,9 +124,8 @@ class ImageManagerInputWidget extends InputWidget {
         //set base url
         $view->registerJs("imageManagerInput.baseUrl = '" . $sBaseUrl . "';");
         $view->registerJs("imageManagerInput.message = " . Json::encode([
-                    'imageManager' => Yii::t('imagemanager','Image manager'),
-                    'detachWarningMessage' => Yii::t('imagemanager', 'Are you sure you want to detach the image?'),
-                ]) . ";");
+                'imageManager' => Yii::t('imagemanager', 'Image manager'),
+                'detachWarningMessage' => Yii::t('imagemanager', 'Are you sure you want to detach the image?'),
+            ]) . ";");
     }
-
 }

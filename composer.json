@@ -8,7 +8,7 @@
     "authors": [
         {
             "name": "mikasto",
-			"homepage": "https://github.com/mikasto/" 
+			"homepage": "https://github.com/mikasto/"
         }
     ],
     "require": {
@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "noam148\\imagemanager\\": ""
+            "mikasto\\imagemanager\\": ""
         }
     }
 }
