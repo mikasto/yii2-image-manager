@@ -85,6 +85,11 @@ To reach the imagemanager module go to:
 ```
 http://www.example.com/imagemanager
 ```
+or using filter
+```
+http://www.example.com/imagemanager?tag=sometag
+```
+
 ![Image manager module](/docs/images/img_doc-image-manager.jpg)
 ![Image manager module cropper](/docs/images/img_doc-image-manager-crop.jpg)
 
