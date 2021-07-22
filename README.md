@@ -93,9 +93,10 @@ To load the image picker see below (make sure you have a field in you table wher
 ```php
 echo $form->field($model, 'ImageManager_id_avatar')->widget(\mikasto\imagemanager\components\ImageManagerInputWidget::className(), [
 	'aspectRatio' => (16/9), //set the aspect ratio
-    'cropViewMode' => 1, //crop mode, option info: https://github.com/fengyuanchen/cropper/#viewmode
+	'cropViewMode' => 1, //crop mode, option info: https://github.com/fengyuanchen/cropper/#viewmode
 	'showPreview' => true, //false to hide the preview
 	'showDeletePickedImageConfirm' => false, //on true show warning before detach image
+	'tag' => 'news', // set filter for display and save uploaded images
 ]);
 ```
 ![Image widget](/docs/images/img_doc-image-widget.jpg)
