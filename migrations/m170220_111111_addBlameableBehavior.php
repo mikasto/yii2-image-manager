@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m170223_113221_addBlameableBehavior extends Migration
+class m170220_111111_addBlameableBehavior extends Migration
 {
     public function up()
     {
