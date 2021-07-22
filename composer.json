@@ -1,7 +1,7 @@
 {
     "name": "mikasto/yii2-image-manager",
-    "description": "A Yii2 module/widget for upload and cropping images",
-    "keywords": ["yii2", "extension", "widget", "module", "image", "upload", "crop", "manager"],
+    "description": "A Yii2 module/widget for upload, cropping images, separating by tag, category",
+    "keywords": ["yii2", "extension", "widget", "module", "image", "upload", "crop", "manager", "tag", "category", "categories", "collections"],
     "homepage": "https://github.com/mikasto/yii2-image-manager",
     "type": "yii2-extension",
     "license": "BSD-3-Clause",
