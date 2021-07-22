@@ -1,10 +1,10 @@
-This branch gives separating images by tag = saving database table name + field name + any condition
--
 
-Image manager for Yii2
-========================
+Image manager for Yii2 : With tag filter
+=========================================
 
-A Yii2 module/widget for upload, manage and cropping images
+A Yii2 module/widget for upload, manage, cropping images and separating by tag.
+This version giving you separating image view window for categories, tags and other option you need.
+It success for a big image collection for different categories and for set access to some categories of images. 
 
 Installation
 ------------
