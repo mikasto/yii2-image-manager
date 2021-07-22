@@ -31,13 +31,13 @@ $this->title = Yii::t('imagemanager','Image manager');
 						<span class="hidden-xs"><?=Yii::t('imagemanager','Cancel')?></span>
 					</a>
 				</div>
-			</div> 
+			</div>
 		</div>
 		<div class="col-xs-6 col-sm-10 col-overview">
 			<?php Pjax::begin([
 				'id'=>'pjax-mediamanager',
 				'timeout'=>'5000'
-			]); ?>    
+			]); ?>
 			<?= ListView::widget([
 				'dataProvider' => $dataProvider,
 				'itemOptions' => ['class' => 'item img-thumbnail'],
@@ -65,8 +65,8 @@ $this->title = Yii::t('imagemanager','Image manager');
 					'accept' => 'image/*'
 				],
 				'pluginOptions' => [
-					'uploadUrl' => Url::to(['manager/upload']),
-					'allowedFileExtensions' => \Yii::$app->controller->module->allowedFileExtensions, 
+					'uploadUrl' => Url::to(['manager/upload', 'tag' => isset($_GET['tag']) ? $_GET['tag'] : '']),
+					'allowedFileExtensions' => \Yii::$app->controller->module->allowedFileExtensions,
 					'uploadAsync' => false,
 					'showPreview' => false,
 					'showRemove' => false,
@@ -113,9 +113,9 @@ $this->title = Yii::t('imagemanager','Image manager');
 					?>
 				</div>
 				<?php if($viewMode === "iframe"): ?>
-				<a href="#" class="btn btn-primary btn-block pick-image-item"><?=Yii::t('imagemanager','Select')?></a> 
+				<a href="#" class="btn btn-primary btn-block pick-image-item"><?=Yii::t('imagemanager','Select')?></a>
 				<?php endif; ?>
 			</div>
-		</div>  
+		</div>
 	</div>
-</div>  
+</div>

@@ -30,7 +30,7 @@ var imageManagerInput = {
 		}
 	},
 	//open media manager modal
-	openModal: function(inputId, aspectRatio, cropViewMode){
+	openModal: function(inputId, aspectRatio, cropViewMode, tag){
 		//get selected item
 		var iImageId = $("#"+inputId).val();
 		var srcImageIdQueryString = "";
@@ -39,11 +39,16 @@ var imageManagerInput = {
 		}
 		//create iframe url
 		var queryStringStartCharacter = ((imageManagerInput.baseUrl).indexOf('?') == -1) ? '?' : '&';
-		var imageManagerUrl = imageManagerInput.baseUrl+queryStringStartCharacter+"view-mode=iframe&input-id="+inputId+"&aspect-ratio="+aspectRatio+"&crop-view-mode="+cropViewMode+srcImageIdQueryString;
+		var imageManagerUrl = imageManagerInput.baseUrl+queryStringStartCharacter
+			+"view-mode=iframe&input-id="+inputId
+			+"&aspect-ratio="+aspectRatio
+			+"&crop-view-mode="+cropViewMode
+			+"&tag="+tag
+			+srcImageIdQueryString;
 		//set iframe path
 		$("#modal-imagemanager iframe").attr("src",imageManagerUrl);
                 //set translation title for modal header
-                $("#modal-imagemanager .modal-dialog .modal-header h4").text(imageManagerInput.message.imageManager); 
+                $("#modal-imagemanager .modal-dialog .modal-header h4").text(imageManagerInput.message.imageManager);
 		//open modal
 		$("#modal-imagemanager").modal("show");
 	},
@@ -63,14 +68,14 @@ var imageManagerInput = {
 			if(confirm(imageManagerInput.message.detachWarningMessage) == false){
 				return false;
 			}
-		}		
-		//set input data		
+		}
+		//set input data
 		$('#'+sFieldId).val("");
 		$('#'+sFieldNameId).val("");
 		//trigger change
 		$('#'+sFieldId).trigger("change");
 		//hide image
-		$('#'+sImagePreviewId).attr("src","").parent().addClass("hide");	
+		$('#'+sImagePreviewId).attr("src","").parent().addClass("hide");
 		//delete hide class
 		$(".delete-selected-image[data-input-id='"+inputId+"']").addClass("hide");
 	}
@@ -79,20 +84,21 @@ var imageManagerInput = {
 $(document).ready(function () {
 	//init Image manage
 	imageManagerInput.init();
-	
+
 	//open media manager modal
 	$(document).on("click", ".open-modal-imagemanager", function () {
 		var aspectRatio = $(this).data("aspect-ratio");
 		var cropViewMode = $(this).data("crop-view-mode");
+		var tag = $(this).data("tag");
 		var inputId = $(this).data("input-id");
 		//open selector id
-		imageManagerInput.openModal(inputId, aspectRatio, cropViewMode);
-	});	
-	
+		imageManagerInput.openModal(inputId, aspectRatio, cropViewMode, tag);
+	});
+
 	//delete picked image
 	$(document).on("click", ".delete-selected-image", function () {
 		var inputId = $(this).data("input-id");
 		//open selector id
 		imageManagerInput.deletePickedImage(inputId);
-	});	
+	});
 });

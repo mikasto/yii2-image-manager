@@ -12,6 +12,7 @@ use yii\db\Expression;
  * This is the model class for table "ImageManager".
  *
  * @property integer $id
+ * @property string $tag
  * @property string $fileName
  * @property string $fileHash
  * @property string $created
@@ -27,7 +28,7 @@ class ImageManager extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%ImageManager}}';
+        return '{{%image_manager}}';
     }
 
     /**
@@ -92,7 +93,7 @@ class ImageManager extends \yii\db\ActiveRecord
     {
         return [
             [['fileName', 'fileHash'], 'required'],
-            [['created', 'modified'], 'safe'],
+            [['created', 'modified', 'tag'], 'safe'],
             [['fileName'], 'string', 'max' => 128],
             [['fileHash'], 'string', 'max' => 32],
         ];
@@ -105,6 +106,7 @@ class ImageManager extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('imagemanager', 'ID'),
+            'tag' => Yii::t('imagemanager', 'Tag'),
             'fileName' => Yii::t('imagemanager', 'File Name'),
             'fileHash' => Yii::t('imagemanager', 'File Hash'),
             'created' => Yii::t('imagemanager', 'Created'),

@@ -66,6 +66,7 @@ class ManagerController extends Controller
         $inputFieldId = Yii::$app->request->get("input-id");
         $cropAspectRatio = Yii::$app->request->get("aspect-ratio");
         $cropViewMode = Yii::$app->request->get("crop-view-mode", 1);
+        $tag = Yii::$app->request->get("tag");
         $defaultImageId = Yii::$app->request->get("image-id");
 
         //set blank layout if viewMode = iframe
@@ -92,6 +93,7 @@ class ManagerController extends Controller
         $this->view->registerJs("imageManagerModule.fieldId = '" . $inputFieldId . "';", 3);
         $this->view->registerJs("imageManagerModule.cropRatio = '" . $cropAspectRatio . "';", 3);
         $this->view->registerJs("imageManagerModule.cropViewMode = '" . $cropViewMode . "';", 3);
+        $this->view->registerJs("imageManagerModule.tag = '" . $tag . "';", 3);
         $this->view->registerJs("imageManagerModule.selectType = '" . $selectType . "';", 3);
         $this->view->registerJs("imageManagerModule.message = " . Json::encode([
                 'deleteMessage' => Yii::t('imagemanager', 'Are you sure you want to delete this image?'),
@@ -151,6 +153,7 @@ class ManagerController extends Controller
                 if ($iErrorCode == 0) {
                     //create a file record
                     $model = new ImageManager();
+                    $model->tag = $_GET['tag'];
                     $model->fileName = str_replace("_", "-", $sFileName);
                     $model->fileHash = Yii::$app->getSecurity()->generateRandomString(32);
                     //if file is saved add record

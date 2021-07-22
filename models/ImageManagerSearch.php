@@ -43,6 +43,9 @@ class ImageManagerSearch extends ImageManager
     public function search($params)
     {
         $query = ImageManager::find();
+        if (!empty($params['tag'])) {
+            $query->andWhere(['tag' => $params['tag']]);
+        }
 
         // add conditions that should always apply here
 
