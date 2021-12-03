@@ -158,11 +158,8 @@ class ManagerController extends Controller
                     $model->fileHash = Yii::$app->getSecurity()->generateRandomString(32);
                     //if file is saved add record
                     if ($model->save()) {
-                        //move file to dir
-                        $sSaveFileName = $model->id . "_" . $model->fileHash . "." . $sFileExtension;
-                        //move_uploaded_file($sTempFile, $sMediaPath."/".$sFileName);
-                        //save with Imagine class
-                        Image::getImagine()->open($sTempFile)->save($sMediaPath . "/" . $sSaveFileName);
+                        //move file to dir with Imagine class
+                        Image::getImagine()->open($sTempFile)->save($model->getImagePathPrivate());
                         $bSuccess = true;
                     }
                 }
@@ -223,9 +220,6 @@ class ManagerController extends Controller
             if ($model->save()) {
                 //do crop in try catch
                 try {
-                    // create file name
-                    $sSaveFileName = $model->id . "_" . $model->fileHash . "." . $sFileExtension;
-
                     // get current/original image data
                     $imageOriginal = Image::getImagine()->open($modelOriginal->imagePathPrivate);
                     $imageOriginalSize = $imageOriginal->getSize();
@@ -311,7 +305,7 @@ class ManagerController extends Controller
                             new Point($imageOriginalPositionXRounded, $imageOriginalPositionYRounded))
                         ->crop(new Point($imageCropPositionXRounded, $imageCropPositionYRounded),
                             new Box($imageCropWidthRounded, $imageCropHeightRounded))
-                        ->save($sMediaPath . "/" . $sSaveFileName);
+                        ->save($model->getImagePathPrivate());
 
                     //set boolean crop success to true
                     $bCropSuccess = true;

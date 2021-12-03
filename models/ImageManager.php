@@ -132,18 +132,23 @@ class ImageManager extends \yii\db\ActiveRecord
      */
     public function getImagePathPrivate()
     {
-        //set default return
-        $return = null;
         //set media path
         $sMediaPath = \Yii::$app->imagemanager->mediaPath;
         $sFileExtension = pathinfo($this->fileName, PATHINFO_EXTENSION);
         //get image file path
-        $sImageFilePath = $sMediaPath . '/' . $this->id . '_' . $this->fileHash . '.' . $sFileExtension;
-        //check file exists
+        $sImageFilePath = $sMediaPath . DIRECTORY_SEPARATOR
+            . (empty($model->tag) ? '' : $model->tag . DIRECTORY_SEPARATOR)
+            . $this->id . '_' . $this->fileHash . '.' . $sFileExtension;
         if (file_exists($sImageFilePath)) {
-            $return = $sImageFilePath;
+            return $sImageFilePath;
         }
-        return $return;
+        // support previous version
+        $sImageFilePath = $sMediaPath . DIRECTORY_SEPARATOR
+            . $this->id . '_' . $this->fileHash . '.' . $sFileExtension;
+        if (file_exists($sImageFilePath)) {
+            return $sImageFilePath;
+        }
+        return null;
     }
 
     /**
@@ -158,9 +163,9 @@ class ImageManager extends \yii\db\ActiveRecord
         $sMediaPath = \Yii::$app->imagemanager->mediaPath;
         $sFileExtension = pathinfo($this->fileName, PATHINFO_EXTENSION);
         //get image file path
-        $sImageFilePath = $sMediaPath . '/' . $this->id . '_' . $this->fileHash . '.' . $sFileExtension;
+        $sImageFilePath = $this->getImagePathPrivate();
         //check file exists
-        if (file_exists($sImageFilePath)) {
+        if (!is_null($sImageFilePath) && file_exists($sImageFilePath)) {
             $aImageDimension = getimagesize($sImageFilePath);
             $return['width'] = isset($aImageDimension[0]) ? $aImageDimension[0] : 0;
             $return['height'] = isset($aImageDimension[1]) ? $aImageDimension[1] : 0;
