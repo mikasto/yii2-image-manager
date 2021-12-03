@@ -159,7 +159,7 @@ class ManagerController extends Controller
                     //if file is saved add record
                     if ($model->save()) {
                         //move file to dir with Imagine class
-                        Image::getImagine()->open($sTempFile)->save($model->getImagePathPrivate());
+                        Image::getImagine()->open($sTempFile)->save($model->getImageSavePath());
                         $bSuccess = true;
                     }
                 }
@@ -215,6 +215,7 @@ class ManagerController extends Controller
             //create a file record
             $model = new ImageManager();
             $model->fileName = $sDisplayFileName;
+            $model->tag = $modelOriginal->tag;
             $model->fileHash = Yii::$app->getSecurity()->generateRandomString(32);
             //if file is saved add record
             if ($model->save()) {
@@ -305,7 +306,7 @@ class ManagerController extends Controller
                             new Point($imageOriginalPositionXRounded, $imageOriginalPositionYRounded))
                         ->crop(new Point($imageCropPositionXRounded, $imageCropPositionYRounded),
                             new Box($imageCropWidthRounded, $imageCropHeightRounded))
-                        ->save($model->getImagePathPrivate());
+                        ->save($model->getImageSavePath());
 
                     //set boolean crop success to true
                     $bCropSuccess = true;
@@ -377,6 +378,7 @@ class ManagerController extends Controller
         $model = $this->findModel($ImageManager_id);
         //set return details
         $return['id'] = $model->id;
+        $return['tag'] = $model->tag;
         $return['fileName'] = $model->fileName;
         $return['created'] = Yii::$app->formatter->asDate($model->created);
         $return['fileSize'] = $model->imageDetails['size'];

@@ -136,19 +136,32 @@ class ImageManager extends \yii\db\ActiveRecord
         $sMediaPath = \Yii::$app->imagemanager->mediaPath;
         $sFileExtension = pathinfo($this->fileName, PATHINFO_EXTENSION);
         //get image file path
-        $sImageFilePath = $sMediaPath . DIRECTORY_SEPARATOR
-            . (empty($model->tag) ? '' : $model->tag . DIRECTORY_SEPARATOR)
-            . $this->id . '_' . $this->fileHash . '.' . $sFileExtension;
+        $sImageFilePath = $this->getImageSavePath();
         if (file_exists($sImageFilePath)) {
             return $sImageFilePath;
         }
         // support previous version
-        $sImageFilePath = $sMediaPath . DIRECTORY_SEPARATOR
+        $sImageFilePathOld = $sMediaPath . DIRECTORY_SEPARATOR
             . $this->id . '_' . $this->fileHash . '.' . $sFileExtension;
-        if (file_exists($sImageFilePath)) {
-            return $sImageFilePath;
+        if (file_exists($sImageFilePathOld)) {
+            if (rename($sImageFilePathOld, $sImageFilePath)) {  // to convert files automatically
+                return $sImageFilePath;
+            }
+            return $sImageFilePathOld;
         }
         return null;
+    }
+
+    public function getImageSavePath()
+    {
+        $sMediaPath = \Yii::$app->imagemanager->mediaPath;
+        $sFileExtension = pathinfo($this->fileName, PATHINFO_EXTENSION);
+        $fullPath = $sMediaPath . DIRECTORY_SEPARATOR
+            . (empty($this->tag) ? '' : $this->tag);
+        if (!file_exists($fullPath)) {
+            mkdir($fullPath);
+        }
+        return $fullPath . DIRECTORY_SEPARATOR . $this->id . '_' . $this->fileHash . '.' . $sFileExtension;
     }
 
     /**
