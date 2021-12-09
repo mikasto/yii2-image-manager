@@ -416,6 +416,26 @@ class ManagerController extends Controller
     }
 
     /**
+     * Get full image at base64 format
+     * @return mixed
+     */
+    public function actionGetOriginalImageBase64()
+    {
+        //disable Csrf
+        Yii::$app->controller->enableCsrfValidation = false;
+        //set response header
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+        //get post
+        $ImageManager_id = Yii::$app->request->post("ImageManager_id");
+        //get details
+        $model = $this->findModel($ImageManager_id);
+        $path = $model->getImagePathPrivate();
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        //return base64 encoded
+        return 'data:image/' . $type . ';base64,' . base64_encode(file_get_contents($path));
+    }
+
+    /**
      * Deletes an existing ImageManager model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @return mixed

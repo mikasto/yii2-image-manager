@@ -4,7 +4,7 @@ var imageManagerModule = {
 	cropRatio: null,
 	cropViewMode: 1,
 	defaultImageId: null,
-	selectType: null, 
+	selectType: null,
 	//current selected image
 	selectedImage: null,
 	//language
@@ -15,12 +15,12 @@ var imageManagerModule = {
 		$('#module-imagemanager > .row .col-image-editor .image-cropper .image-wrapper img#image-cropper').cropper({
 			viewMode: imageManagerModule.cropViewMode
 		});
-		
+
 		//preselect image if image-id isset
 		if(imageManagerModule.defaultImageId !== ""){
 			imageManagerModule.selectImage(imageManagerModule.defaultImageId);
 		}
-		
+
 		//set selected after pjax complete
 		$('#pjax-mediamanager').on('pjax:complete', function() {
 			if(imageManagerModule.selectedImage !== null){
@@ -34,7 +34,7 @@ var imageManagerModule = {
 		var newUrl = window.queryStringParameter.set(window.location.href, "ImageManagerSearch[globalSearch]", searchTerm);
 		//set pjax
 		$.pjax({url: newUrl, container: "#pjax-mediamanager", push: false, replace: false, timeout: 5000, scrollTo:false});
-	},	
+	},
 	//select an image
 	selectImage: function(id){
 		//set selected class
@@ -53,7 +53,7 @@ var imageManagerModule = {
 				var sFieldId = imageManagerModule.fieldId;
 				var sFieldNameId = sFieldId+"_name";
 				var sFieldImageId = sFieldId+"_image";
-				//set input data		
+				//set input data
 				$('#'+sFieldId, window.parent.document).val(imageManagerModule.selectedImage.id);
 				$('#'+sFieldNameId, window.parent.document).val(imageManagerModule.selectedImage.fileName);
 				$('#'+sFieldImageId, window.parent.document).attr("src",imageManagerModule.selectedImage.image).parent().removeClass("hide");
@@ -64,10 +64,36 @@ var imageManagerModule = {
 				//close the modal
 				window.parent.imageManagerInput.closeModal();
 				break;
+			//CKEditorBase64 selector
+			case "ckeditorBase64":
+				//check if isset image
+				if(imageManagerModule.selectedImage !== null){
+					//call action by ajax
+					$.ajax({
+						url: imageManagerModule.baseUrl+"/get-original-image-base64",
+						type: "POST",
+						data: {
+							ImageManager_id: imageManagerModule.selectedImage.id,
+							_csrf: $('meta[name=csrf-token]').prop('content')
+						},
+						dataType: "json",
+						success: function (responseData, textStatus, jqXHR) {
+							var sField = window.queryStringParameter.get(window.location.href, "CKEditorFuncNum");
+							window.top.opener.CKEDITOR.tools.callFunction(sField, responseData);
+							window.self.close();
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							alert("Error: can't get item");
+						}
+					});
+				}else{
+					alert("Error: image can't picked");
+				}
+				break;
 			//CKEditor selector
 			case "ckeditor":
 			//TinyMCE Selector
-			case "tinymce":
+			case "tinymce": alert(11)
 				//check if isset image
 				if(imageManagerModule.selectedImage !== null){
 					//call action by ajax
@@ -89,7 +115,7 @@ var imageManagerModule = {
 								var sField = window.queryStringParameter.get(window.location.href, "tag_name");
 								window.opener.document.getElementById(sField).value = responseData;
 								window.close();
-								window.opener.focus();								
+								window.opener.focus();
 							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
@@ -101,8 +127,8 @@ var imageManagerModule = {
 				}
 				break;
 		}
-		
-		
+
+
 	},
 	//delete the selected image
 	deleteSelectedImage: function(){
@@ -125,7 +151,7 @@ var imageManagerModule = {
 						//check if delete is true
 						if(responseData.delete === true){
 							//delete item element
-							$("#module-imagemanager .item-overview .item[data-key='"+imageManagerModule.selectedImage.id+"']").remove(); 
+							$("#module-imagemanager .item-overview .item[data-key='"+imageManagerModule.selectedImage.id+"']").remove();
 							//add hide class to info block
 							$("#module-imagemanager .image-info").addClass("hide");
 							//set selectedImage to null
@@ -159,8 +185,8 @@ var imageManagerModule = {
 			dataType: "json",
 			success: function (responseData, textStatus, jqXHR) {
 				//set imageManagerModule.selectedImage property
-				imageManagerModule.selectedImage = responseData; 
-				
+				imageManagerModule.selectedImage = responseData;
+
 				//if need to pick image?
 				if(pickAfterGetDetails){
 					imageManagerModule.pickImage();
@@ -286,7 +312,7 @@ var imageManagerModule = {
 
 $(document).ready(function () {
 	//init Image manage
-	imageManagerModule.init();	
+	imageManagerModule.init();
 	//on click select item (open view)
 	$(document).on("click", "#module-imagemanager .item-overview .item", function (){
 		//get id
@@ -311,24 +337,24 @@ $(document).ready(function () {
 	});
 	//on click apply crop
 	$(document).on("click", "#module-imagemanager .image-cropper .apply-crop", function (){
-		imageManagerModule.editor.applyCrop();	
+		imageManagerModule.editor.applyCrop();
 		return false;
 	});
 	//on click apply crop
 	$(document).on("click", "#module-imagemanager .image-cropper .apply-crop-select", function (){
-		imageManagerModule.editor.applyCrop(true);	
+		imageManagerModule.editor.applyCrop(true);
 		return false;
 	});
 	//on click cancel crop
 	$(document).on("click", "#module-imagemanager .image-cropper .cancel-crop", function (){
-		imageManagerModule.editor.close();	
+		imageManagerModule.editor.close();
 		return false;
 	});
 	//on keyup change set filter
 	$( document ).on("keyup change", "#input-mediamanager-search", function() {
 		imageManagerModule.filterImageResult($(this).val());
 	});
-	
+
 });
 
 /*
@@ -341,7 +367,7 @@ window.queryStringParameter = {
 		return (match && match.length > 1) ? match[1] : null;
 	},
 	set: function(uri, key, value){
-		//replace brackets 
+		//replace brackets
 		var keyReplace = key.replace("[]", "").replace(/\[/g, "%5B").replace(/\]/g, "%5D");
 		//replace data
 		var re = new RegExp("([?&])" + keyReplace + "=.*?(&|$)", "i");

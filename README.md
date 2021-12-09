@@ -133,6 +133,18 @@ use dosamigos\ckeditor\CKEditor;
 	]
 ]);
 ```
+For support base64 image inserts use:
+```php
+use dosamigos\ckeditor\CKEditor;
+
+ echo $form->field($model, 'text')->widget(CKEditor::className(), [
+	'options' => ['rows' => 6],
+	'preset' => 'basic',
+	'clientOptions' => [
+		'filebrowserImageBrowseUrl' => yii\helpers\Url::to(['imagemanager/manager', 'view-mode'=>'iframe', 'select-type'=>'ckeditorBase64']),
+	]
+]);
+```
 
 For using the filebrowser in TinyMce add the file_browser_callback to the clientOptions of the TinyMce widget. I test it only for the TinyMce from 2amigOS but it need to work on other TinyMce widgets. (don't forget add 'image' to your 'plugins' array)
 
